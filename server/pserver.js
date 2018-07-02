@@ -1,6 +1,7 @@
 // Minimal server: log request details
 var HTTP = require('http');
 var fs = require("fs");
+var ip = require("ip");
 
 start(8081);
 
@@ -8,7 +9,7 @@ start(8081);
 function start(port) {
    var service = HTTP.createServer(handle);
    service.listen(port,'0.0.0.0');
-   console.log("Port:" + port);
+   console.log("URL;" + ip.address() + "\nPort:" + port);
 }
 
 // Deal with a request.
