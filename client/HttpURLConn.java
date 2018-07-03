@@ -8,7 +8,7 @@ import java.time.*;
 import java.net.*;
 
 class HttpURLConn {
-  private String urlName = "http://192.168.0.11:8081/";
+  private String urlName = "http://192.168.1.99:8081/";
   private DataOutputStream out;
   private BufferedReader in, stdIn;
 
@@ -27,8 +27,8 @@ class HttpURLConn {
           Instant t1, t2;
           t1 = Instant.now();
           // loop round this line:
-          for (int i=0; i<1000000; i++) {
-            // get(userInput);
+          for (int i=0; i<10000; i++) {
+            get(userInput);
           }
           t2 = Instant.now();
           System.out.println(Duration.between(t1, t2));
@@ -60,7 +60,7 @@ class HttpURLConn {
       InputStreamReader stream = new InputStreamReader(conn.getInputStream());
       in = new BufferedReader(stream);
       response  = "echo: " + in.readLine();
-      // in.close();
+      in.close();
     } catch (IOException getFail) {
       System.err.println("getFail: " + getFail.getMessage());
     }
