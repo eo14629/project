@@ -63,7 +63,7 @@ class HttpURLConn {
       InputStreamReader stream = new InputStreamReader(conn.getInputStream());
       in = new BufferedReader(stream);
       response  = "echo: " + in.readLine();
-      // in.close();
+      in.close();
     } catch (IOException getFail) {
       System.err.println("getFail: " + getFail.getMessage());
     }
