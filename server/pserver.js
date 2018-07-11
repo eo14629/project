@@ -9,7 +9,7 @@ start(8081);
 function start(port) {
    var service = HTTP.createServer(handle);
    service.listen(port,'0.0.0.0');
-   console.log("URL;" + ip.address() + "\nPort:" + port);
+   console.log("URL:" + ip.address() + "\nPort:" + port);
 }
 
 // Deal with a request.
@@ -65,7 +65,7 @@ function get(extension, request, response) {
   if (extension == "good") {
     reply(response, 'text/html' , "good");
   } else if (extension == "file") {
-    fs.readFile('./text.txt', ready);
+    fs.readFile('./txt100000.txt', ready);
     function ready(err, content) {
       reply(response, 'application/octet-stream' , content);
     }
@@ -98,7 +98,7 @@ function fof(response) {
 // Send a reply of any type
 function reply(response, type, content) {
    var headers = { 'content-type': type };
-   console.log("Response: " + content);
+   // console.log("Response: " + content);
    response.writeHead(200, headers);
    response.write(content)
    response.end();

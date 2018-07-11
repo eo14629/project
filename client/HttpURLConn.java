@@ -6,9 +6,10 @@ import java.util.*;
 import java.time.*;
 
 import java.net.*;
+import java.net.HttpURLConnection;
 
 class HttpURLConn {
-  private String urlName = "http://192.168.0.11:8081/";
+  private String urlName = "http://192.168.0.34:8081/";
   private DataOutputStream out;
   private BufferedReader in, stdIn;
 
@@ -27,16 +28,18 @@ class HttpURLConn {
           Instant t1, t2;
           t1 = Instant.now();
           // loop round this line:
-          for (int i=0; i<1000000; i++) {
-            // get(userInput);
+          for (int i=0; i<10000; i++) {
+            get(userInput);
           }
           t2 = Instant.now();
           System.out.println(Duration.between(t1, t2));
         } else if (userInput.startsWith("post-")){
-          Path file = FileSystems.getDefault().getPath("txt100.txt");
+          Path file = FileSystems.getDefault().getPath("./txt100000.txt");
           byte[] fileArray = Files.readAllBytes(file);
           // loop round this line:
-          System.out.println(post(userInput, fileArray));
+          for (int i=0; i<10000; i++) {
+            System.out.println(post(userInput, fileArray));
+          }
         } else {
           System.err.println("Incorrect url format: must start with 'get-' or 'post-'");
         }
