@@ -28,18 +28,22 @@ class HttpURLConn {
           Instant t1, t2;
           t1 = Instant.now();
           // loop round this line:
-          for (int i=0; i<10000; i++) {
+          for (int i=0; i<12000; i++) {
             get(userInput);
           }
           t2 = Instant.now();
-          System.out.println(Duration.between(t1, t2));
+          printDuration(Duration.between(t1, t2).toMillis());
         } else if (userInput.startsWith("post-")){
-          Path file = FileSystems.getDefault().getPath("./txt100000.txt");
+          Path file = FileSystems.getDefault().getPath("./txt6000.txt");
           byte[] fileArray = Files.readAllBytes(file);
+          Instant t1, t2;
+          t1 = Instant.now();
           // loop round this line:
           for (int i=0; i<10000; i++) {
-            System.out.println(post(userInput, fileArray));
+            post(userInput, fileArray);
           }
+          t2 = Instant.now();
+          printDuration(Duration.between(t1, t2).toMillis());
         } else {
           System.err.println("Incorrect url format: must start with 'get-' or 'post-'");
         }
@@ -48,13 +52,22 @@ class HttpURLConn {
       System.err.println("d: " + d.getMessage());
     }
   }
+  
+  private void printDuration(double millis) {
+	  for (int j=0; j<40; j++) {  
+		for (int k=0; k<j; k++) {  
+			System.out.print(millis/1000 + "s");
+		}
+		System.out.println("...");
+	  }
+  }
 
   // The get request - makes a connection to the server
   // and reads in the recieved input.
   // now not going to print the response as this should Not
   //    be involved in the energy calculations
   private void get(String userInput) {
-    String response;
+	String response;
     try {
       URL url = new URL(urlName + userInput);
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -67,11 +80,10 @@ class HttpURLConn {
     } catch (IOException getFail) {
       System.err.println("getFail: " + getFail.getMessage());
     }
-    // return response;
   }
 
-  private String post(String userInput, byte[] file) {
-    String response;
+  private void post(String userInput, byte[] file) {
+	String response;
     try {
       URL url = new URL(urlName + userInput);
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -80,15 +92,16 @@ class HttpURLConn {
       // printRequest(conn);
       try( DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
         wr.write(file);
-      }
+      } catch (IOException OutputStreamFail) {
+		System.err.println("OutputStreamFail: " + OutputStreamFail.getMessage());
+	  }
       InputStreamReader stream = new InputStreamReader(conn.getInputStream());
       in = new BufferedReader(stream);
       response  = "echo: " + in.readLine();
       in.close();
     } catch (IOException postFail) {
-      return "postFail: " + postFail.getMessage();
+	  System.err.println("postFail: " + postFail.getMessage());
     }
-    return response;
   }
 
   // printing all parts of the HTTP Request
