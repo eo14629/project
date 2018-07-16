@@ -28,18 +28,18 @@ class HttpURLConn {
           Instant t1, t2;
           t1 = Instant.now();
           // loop round this line:
-          for (int i=0; i<600; i++) {
+          for (int i=0; i<12000; i++) {
             get(userInput);
           }
           t2 = Instant.now();
           printDuration(Duration.between(t1, t2).toMillis());
         } else if (userInput.startsWith("post-")){
-          Path file = FileSystems.getDefault().getPath("./txt500000.txt");
+          Path file = FileSystems.getDefault().getPath("./txt6000.txt");
           byte[] fileArray = Files.readAllBytes(file);
           Instant t1, t2;
           t1 = Instant.now();
           // loop round this line:
-          for (int i=0; i<4000; i++) {
+          for (int i=0; i<10000; i++) {
             post(userInput, fileArray);
           }
           t2 = Instant.now();
