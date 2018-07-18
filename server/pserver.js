@@ -65,12 +65,7 @@ function get(extension, request, response) {
   if (extension == "good") {
     reply(response, 'text/html' , "good");
   } else if (extension == "file") {
-    fs.readFile('./txt100000.txt', ready);
-    function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "empty") {
-    fs.readFile('./empty.txt', ready);
+    fs.readFile('./txt1.txt', ready);
     function ready(err, content) {
       reply(response, 'application/octet-stream' , content);
     }
@@ -83,6 +78,7 @@ function get(extension, request, response) {
 
 // function to deal with HTTP POST Requests
 function post(extension, request, response) {
+  console.log("extension = " + extension);
   if (extension == "") {
     reply(response, 'text/plain' , "post OK");
   } else {
