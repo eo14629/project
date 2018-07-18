@@ -29,7 +29,7 @@ function printRequest(request) {
     body.push(chunk);
   }).on('end', () => {
     body = Buffer.concat(body).toString();
-    // console.log("Body:", body);
+    console.log("Body:", body);
   });
 }
 
