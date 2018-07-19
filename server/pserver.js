@@ -64,8 +64,63 @@ function direct(url, request, response) {
 function get(extension, request, response) {
   if (extension == "good") {
     reply(response, 'text/html' , "good");
-  } else if (extension == "file") {
+  } else if (extension == "file1") {
     fs.readFile('./txt1.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file10") {
+    fs.readFile('./txt10.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file100") {
+    fs.readFile('./txt100.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file300") {
+    fs.readFile('./txt300.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file700") {
+    fs.readFile('./txt700.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file1000") {
+    fs.readFile('./txt1000.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file3000") {
+    fs.readFile('./txt3000.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file6000") {
+    fs.readFile('./txt6000.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file10000") {
+    fs.readFile('./txt10000.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file100000") {
+    fs.readFile('./txt100000.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file500000") {
+    fs.readFile('./txt500000.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file1000000") {
+    fs.readFile('./txt1000000.txt', ready);
     function ready(err, content) {
       reply(response, 'application/octet-stream' , content);
     }
