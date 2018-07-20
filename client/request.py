@@ -10,18 +10,18 @@ def wrongExtension(url):
     print(data)
 
 def get(url):
-    sendGetRequest(url, 3000, "file1")
-    sendGetRequest(url, 3000, "file10")
-    sendGetRequest(url, 3000, "file100")
-    sendGetRequest(url, 3000, "file300")
-    sendGetRequest(url, 3000, "file700")
-    sendGetRequest(url, 2500, "file1000")
+    #~ sendGetRequest(url, 3000, "file1")
+    #~ sendGetRequest(url, 3000, "file10")
+    #~ sendGetRequest(url, 3000, "file100")
+    #~ sendGetRequest(url, 3000, "file300")
+    #~ sendGetRequest(url, 3000, "file700")
+    #~ sendGetRequest(url, 2500, "file1000")
     sendGetRequest(url, 2000, "file3000")
-    sendGetRequest(url, 2000, "file6000")
-    sendGetRequest(url, 2000, "file10000")
-    sendGetRequest(url, 500, "file100000")
-    sendGetRequest(url, 300, "file500000")
-    sendGetRequest(url, 150, "file1000000")
+    #~ sendGetRequest(url, 2000, "file6000")
+    #~ sendGetRequest(url, 2000, "file10000")
+    #~ sendGetRequest(url, 500, "file100000")
+    #~ sendGetRequest(url, 300, "file500000")
+    #~ sendGetRequest(url, 150, "file1000000")
 
 def putpost(url):
     sendPutPostRequest(url, 3000, "txt1")
@@ -70,6 +70,6 @@ URL = "http://192.168.0.34:8081/" + extension
 if extension.startswith("get-"):
     get(URL)
 elif extension.startswith("post-"):
-    post(URL)
+    putpost(URL)
 else:
     wrongExtension(URL)
