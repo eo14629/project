@@ -10,52 +10,51 @@ def wrongExtension(url):
     print(data)
 
 def get(url):
-    sendGetRequest(url, 6000, "file1")
-    # sendGetRequest(url, 6000, "file10")
-    # sendGetRequest(url, 6000, "file100")
-    # sendGetRequest(url, 6000, "file300")
-    # sendGetRequest(url, 6000, "file700")
-    # sendGetRequest(url, 5000, "file1000")
-    # sendGetRequest(url, 4000, "file3000")
-    # sendGetRequest(url, 4000, "file6000")
-    # sendGetRequest(url, 4000, "file10000")
-    # sendGetRequest(url, 1000, "file100000")
-    # sendGetRequest(url, 600, "file500000")
-    # sendGetRequest(url, 300, "file1000000")
+    sendGetRequest(url, 3000, "file1")
+    sendGetRequest(url, 3000, "file10")
+    sendGetRequest(url, 3000, "file100")
+    sendGetRequest(url, 3000, "file300")
+    sendGetRequest(url, 3000, "file700")
+    sendGetRequest(url, 2500, "file1000")
+    sendGetRequest(url, 2000, "file3000")
+    sendGetRequest(url, 2000, "file6000")
+    sendGetRequest(url, 2000, "file10000")
+    sendGetRequest(url, 500, "file100000")
+    sendGetRequest(url, 300, "file500000")
+    sendGetRequest(url, 150, "file1000000")
 
-def post(url):
-    sendPostRequest(url, 6000, "txt1")
-    sendPostRequest(url, 6000, "txt10")
-    sendPostRequest(url, 6000, "txt100")
-    sendPostRequest(url, 6000, "txt300")
-    sendPostRequest(url, 6000, "txt700")
-    sendPostRequest(url, 5000, "txt1000")
-    sendPostRequest(url, 4000, "txt3000")
-    sendPostRequest(url, 4000, "txt6000")
-    sendPostRequest(url, 400, "txt10000")
-    sendPostRequest(url, 1000, "txt100000")
-    sendPostRequest(url, 600, "txt500000")
-    sendPostRequest(url, 300, "txt1000000")
+def putpost(url):
+    sendPutPostRequest(url, 3000, "txt1")
+    sendPutPostRequest(url, 3000, "txt10")
+    sendPutPostRequest(url, 3000, "txt100")
+    sendPutPostRequest(url, 3000, "txt300")
+    sendPutPostRequest(url, 3000, "txt700")
+    sendPutPostRequest(url, 2500, "txt1000")
+    sendPutPostRequest(url, 2000, "txt3000")
+    sendPutPostRequest(url, 2000, "txt6000")
+    sendPutPostRequest(url, 2000, "txt10000")
+    sendPutPostRequest(url, 500, "txt100000")
+    sendPutPostRequest(url, 300, "txt500000")
+    sendPutPostRequest(url, 150, "txt1000000")
 
 def sendGetRequest(url, repeat, file_extension):
     t_start = time.time()
     for j in range(repeat):
         r = requests.get(url + file_extension)
         data = r.text
-        #~ print(data)
     t_end = time.time()
     printDuration(t_end-t_start)
 
-def sendPostRequest(url, repeat, filename):
+def sendPutPostRequest(url, repeat, filename):
     postfile = open("./" + filename + ".txt",'rb')
     HTTPbody = postfile.read()
     postfile.close()
 
+    # can change the post request line to a put simply by changing the word.
     t_start = time.time()
     for j in range(repeat):
         r = requests.post(url, data = HTTPbody)
         post_response = r.text
-        #~ print(post_response)
     t_end = time.time()
     printDuration(t_end-t_start)
 
