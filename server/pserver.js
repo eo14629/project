@@ -124,6 +124,16 @@ function get(extension, request, response) {
     function ready(err, content) {
       reply(response, 'application/octet-stream' , content);
     }
+  } else if (extension == "file10000000") {
+    fs.readFile('./txt10000000.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file100000000") {
+    fs.readFile('./txt100000000.txt', ready);
+    function ready(err, content) {
+      reply(response, 'application/octet-stream' , content);
+    }
   } else if (extension == "") {
     reply(response, 'text/plain' , "OK");
   } else {
