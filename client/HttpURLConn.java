@@ -9,7 +9,7 @@ import java.net.*;
 import java.net.HttpURLConnection;
 
 class HttpURLConn {
-  private String urlName = "http://192.168.0.34:8081/";
+  private String urlName = "http://192.168.0.34:8082/";
   private DataOutputStream out;
   private BufferedReader in, stdIn;
 
@@ -28,11 +28,11 @@ class HttpURLConn {
           Instant t1, t2;
           t1 = Instant.now();
           // loop round this line:
-          for (int i=0; i<8000; i++) {
+          for (int i=0; i<1; i++) {
             get(userInput);
           }
           t2 = Instant.now();
-          printDuration(Duration.between(t1, t2).toMillis());
+          // printDuration(Duration.between(t1, t2).toMillis());
         } else if (userInput.startsWith("post-")){
           Path file = FileSystems.getDefault().getPath("./txt300.txt");
           byte[] fileArray = Files.readAllBytes(file);
@@ -52,10 +52,10 @@ class HttpURLConn {
       System.err.println("d: " + d.getMessage());
     }
   }
-  
+
   private void printDuration(double millis) {
-	  for (int j=0; j<40; j++) {  
-		for (int k=0; k<j; k++) {  
+	  for (int j=0; j<40; j++) {
+		for (int k=0; k<j; k++) {
 			System.out.print(millis/1000 + "s");
 		}
 		System.out.println("...");
@@ -77,6 +77,7 @@ class HttpURLConn {
       in = new BufferedReader(stream);
       response  = "echo: " + in.readLine();
       in.close();
+      System.out.println("Response: " + response);
     } catch (IOException getFail) {
       System.err.println("getFail: " + getFail.getMessage());
     }

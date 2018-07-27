@@ -3,6 +3,7 @@
 
 import requests
 import time
+import sys, getopt
 
 def wrongExtension(url):
     r = requests.get(url)
@@ -10,13 +11,13 @@ def wrongExtension(url):
     print(data)
 
 def get(url):
-    #~ sendGetRequest(url, 3000, "file1")
-    #~ sendGetRequest(url, 3000, "file10")
+    # sendGetRequest(url, 3000, "file1")
+    sendGetRequest(url, 1, "file10")
     #~ sendGetRequest(url, 3000, "file100")
     #~ sendGetRequest(url, 3000, "file300")
     #~ sendGetRequest(url, 3000, "file700")
     #~ sendGetRequest(url, 2500, "file1000")
-    sendGetRequest(url, 2000, "file3000")
+    # sendGetRequest(url, 1, "file3000")
     #~ sendGetRequest(url, 2000, "file6000")
     #~ sendGetRequest(url, 2000, "file10000")
     #~ sendGetRequest(url, 500, "file100000")
@@ -40,10 +41,11 @@ def putpost(url):
 def sendGetRequest(url, repeat, file_extension):
     t_start = time.time()
     for j in range(repeat):
-        r = requests.get(url + file_extension)
+        r = requests.get(url + file_extension)# + '&get-' + file_extension)
         data = r.text
+        print data
     t_end = time.time()
-    printDuration(t_end-t_start)
+    # printDuration(t_end-t_start)
 
 def sendPutPostRequest(url, repeat, filename):
     postfile = open("./" + filename + ".txt",'rb')
@@ -64,12 +66,17 @@ def printDuration(time):
             print time, 's'
         print("...")
 
-extension = raw_input("enter extension: ")
-URL = "http://192.168.0.34:8081/" + extension
+def main(argv):
+    # extension = raw_input("enter extension: ")
+    extension = "get-"
+    URL = "http://192.168.0.34:8082/" + extension
 
-if extension.startswith("get-"):
-    get(URL)
-elif extension.startswith("post-"):
-    putpost(URL)
-else:
-    wrongExtension(URL)
+    if extension.startswith("get-"):
+        get(URL)
+    elif extension.startswith("post-"):
+        putpost(URL)
+    else:
+        wrongExtension(URL)
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
