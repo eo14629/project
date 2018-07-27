@@ -12,7 +12,7 @@ def wrongExtension(url):
 
 def get(url):
     # sendGetRequest(url, 3000, "file1")
-    sendGetRequest(url, 1, "file10")
+    sendGetRequest(url, 1, "file1", "file10", "file100", "file1000")
     #~ sendGetRequest(url, 3000, "file100")
     #~ sendGetRequest(url, 3000, "file300")
     #~ sendGetRequest(url, 3000, "file700")
@@ -38,14 +38,23 @@ def putpost(url):
     sendPutPostRequest(url, 300, "txt500000")
     sendPutPostRequest(url, 150, "txt1000000")
 
-def sendGetRequest(url, repeat, file_extension):
+def sendGetRequest(url, repeat, *file_extensions):
     t_start = time.time()
     for j in range(repeat):
-        r = requests.get(url + file_extension)# + '&get-' + file_extension)
+        r = requests.get(url + file_extensions[0])
+        data = r.text
+        print data
+        r = requests.get(url + file_extensions[1])
+        data = r.text
+        print data
+        r = requests.get(url + file_extensions[2])
+        data = r.text
+        print data
+        r = requests.get(url + file_extensions[3])
         data = r.text
         print data
     t_end = time.time()
-    # printDuration(t_end-t_start)
+    printDuration(t_end-t_start)
 
 def sendPutPostRequest(url, repeat, filename):
     postfile = open("./" + filename + ".txt",'rb')
@@ -69,7 +78,7 @@ def printDuration(time):
 def main(argv):
     # extension = raw_input("enter extension: ")
     extension = "get-"
-    URL = "http://192.168.0.34:8082/" + extension
+    URL = "http://192.168.0.34:8081/" + extension
 
     if extension.startswith("get-"):
         get(URL)
