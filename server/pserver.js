@@ -64,85 +64,17 @@ function direct(url, request, response) {
 function get(extension, request, response) {
   if (extension == "good") {
     reply(200, response, 'text/html' , "good");
-  } else if (extension == "file1") {
-    fs.readFile('./txt1.txt', ready);
+  } else if (extension.startsWith("file")) {
+    var file = "./txt" + extension.split("file")[1] + ".txt"
+    fs.readFile(file, ready);
     function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file10") {
-    fs.readFile('./txt10.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file100") {
-    fs.readFile('./txt100.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file300") {
-    fs.readFile('./txt300.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file700") {
-    fs.readFile('./txt700.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file1000") {
-    fs.readFile('./txt1000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file3000") {
-    fs.readFile('./txt3000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file6000") {
-    fs.readFile('./txt6000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file10000") {
-    fs.readFile('./txt10000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file90000") {
-    fs.readFile('./txt90000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file100000") {
-    fs.readFile('./txt100000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file500000") {
-    fs.readFile('./txt500000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file1000000") {
-    fs.readFile('./txt1000000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file10000000") {
-    fs.readFile('./txt10000000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
-    }
-  } else if (extension == "file100000000") {
-    fs.readFile('./txt100000000.txt', ready);
-    function ready(err, content) {
-      reply(200, response, 'application/octet-stream' , content);
+      if (err) {reply(400, response, 'text/plain' , "400 - File '"+ file + "' does not exist in server library")}
+      else {reply(200, response, 'application/octet-stream' , content);}
     }
   } else if (extension == "") {
     reply(200, response, 'text/plain' , "OK");
   } else {
-    reply(404, response, 'text/plain' , "404 Page not found");
+    reply(404, response, 'text/plain' , "404 - Page not found");
   }
 }
 
@@ -152,7 +84,7 @@ function post(extension, request, response) {
   if (extension == "") {
     reply(200, response, 'text/plain' , "post OK");
   } else {
-    reply(404, response, 'text/plain' , "404 Page not found");
+    reply(404, response, 'text/plain' , "404 - Page not found");
   }
 }
 
