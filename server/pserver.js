@@ -56,88 +56,93 @@ function direct(url, request, response) {
     extension = url.split("-")[1];
     post(extension, request, response);
   } else {
-    fof(response);
+    reply(404, response, 'text/plain' , "404 Page not found");
   }
 }
 
 // function to deal with HTTP GET Requests
 function get(extension, request, response) {
   if (extension == "good") {
-    reply(response, 'text/html' , "good");
+    reply(200, response, 'text/html' , "good");
   } else if (extension == "file1") {
     fs.readFile('./txt1.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file10") {
     fs.readFile('./txt10.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file100") {
     fs.readFile('./txt100.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file300") {
     fs.readFile('./txt300.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file700") {
     fs.readFile('./txt700.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file1000") {
     fs.readFile('./txt1000.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file3000") {
     fs.readFile('./txt3000.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file6000") {
     fs.readFile('./txt6000.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file10000") {
     fs.readFile('./txt10000.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
+    }
+  } else if (extension == "file90000") {
+    fs.readFile('./txt90000.txt', ready);
+    function ready(err, content) {
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file100000") {
     fs.readFile('./txt100000.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file500000") {
     fs.readFile('./txt500000.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file1000000") {
     fs.readFile('./txt1000000.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file10000000") {
     fs.readFile('./txt10000000.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "file100000000") {
     fs.readFile('./txt100000000.txt', ready);
     function ready(err, content) {
-      reply(response, 'application/octet-stream' , content);
+      reply(200, response, 'application/octet-stream' , content);
     }
   } else if (extension == "") {
-    reply(response, 'text/plain' , "OK");
+    reply(200, response, 'text/plain' , "OK");
   } else {
-    fof(response);
+    reply(404, response, 'text/plain' , "404 Page not found");
   }
 }
 
@@ -145,22 +150,17 @@ function get(extension, request, response) {
 function post(extension, request, response) {
   console.log("extension = " + extension);
   if (extension == "") {
-    reply(response, 'text/plain' , "post OK");
+    reply(200, response, 'text/plain' , "post OK");
   } else {
-    fof(response);
+    reply(404, response, 'text/plain' , "404 Page not found");
   }
 }
 
-// 404 not found
-function fof(response) {
-  reply(response, 'text/plain' , "404 Page not found");
-}
-
 // Send a reply of any type
-function reply(response, type, content) {
+function reply(status_code, response, type, content) {
    var headers = { 'content-type': type };
    // console.log("Response: " + content);
-   response.writeHead(200, headers);
+   response.writeHead(status_code, headers);
    response.write(content)
    response.end();
 }
