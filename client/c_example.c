@@ -6,8 +6,10 @@
 #include <sys/socket.h> /* socket, connect */
 #include <netinet/in.h> /* struct sockaddr_in, struct sockaddr */
 #include <netdb.h> /* struct hostent, gethostbyname */
+#include <time.h>
 
 void error(const char *msg);
+void printDuration(int duration);
 
 int main(int argc,char *argv[])
 {
@@ -18,16 +20,19 @@ int main(int argc,char *argv[])
 
     struct hostent *server;
     struct sockaddr_in serv_addr;
-    int sockfd, bytes, sent, received, total;
-    char message[1024],response[4096];
+    int sockfd, bytes, sent, received, total, repeat;
+    char message[1024],response[1001000];
 
-    if (argc < 3) { puts("Parameters: <request_type(in CAPS)> <URI>"); exit(0); }
+    if (argc != 4) { puts("Parameters: <request_type(in CAPS)> <URI> <repeat>"); exit(0); }
 
     /* fill in the parameters */
     sprintf(message,message_fmt,argv[1],argv[2]);
-    printf("Request:\n%s\n",message);
-
-
+    if (sscanf(argv[3], "%i", &repeat) != 1) { 
+		fprintf(stderr, "error - repeat val (third arg) is not an integer"); 
+	}
+ 	printf("repeat : %d\n",repeat);
+	printf("Request:\n%s\n",message);
+	
     /* lookup the ip address */
     server = gethostbyname(host);
     if (server == NULL) error("ERROR, no such host");
@@ -38,8 +43,9 @@ int main(int argc,char *argv[])
     serv_addr.sin_port = htons(portno);
     memcpy(&serv_addr.sin_addr.s_addr,server->h_addr,server->h_length);
 
-
-    for (size_t i = 0; i < 10; i++) {
+	time_t before, after;
+	time(&before);
+    for (size_t i = 0; i < repeat; i++) {
         /* create the socket */
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
         if (sockfd < 0) error("ERROR opening socket");
@@ -83,7 +89,9 @@ int main(int argc,char *argv[])
         /* close the socket */
         close(sockfd);
     }
-
+    time(&after);
+    
+	printDuration((int)(after-before));
 
     return 0;
 }
@@ -91,4 +99,13 @@ int main(int argc,char *argv[])
 void error(const char *msg) {
     printf("%s\n", msg);
     exit(0);
+}
+
+void printDuration(int duration) {
+	for (int j=0; j<100; j++) {  
+		for (int k=0; k<j; k++) {  
+			printf("%ds", duration);
+		}
+	printf("...\n");
+	}
 }
