@@ -14,7 +14,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
         s.send_response(200)
         s.send_header("Content-type", "text/html")
         s.end_headers()
-        s.wfile.write("path accessed: %s\n" % s.path)
+        # s.wfile.write("path accessed: %s\n" % s.path)
 
         # split the path into different sections
         extension = s.path.split('/')
@@ -22,7 +22,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
         print paths
         if len(paths) > 1:
             response = bundle(paths)
-            print response
+            # print response
             s.wfile.write(response)
         else:
             response = getRequest(paths[0])
@@ -43,8 +43,9 @@ def bundle(paths):
 def getRequest(path):
     url = SERVER_NAME + path
     server_response = requests.get(url)
+    print path, " status_code: ", server_response.status_code
     return server_response.text
-
+    
 # set up the proxy server
 def run():
     server_class = BaseHTTPServer.HTTPServer
