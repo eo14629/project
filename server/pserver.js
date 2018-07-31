@@ -88,10 +88,11 @@ function post(extension, request, response) {
   }
 }
 
-// Send a reply of any type
+// Send a reply of any type and status
 function reply(status_code, response, type, content) {
    var headers = { 'content-type': type };
    // console.log("Response: " + content);
+   console.log("STATUS CODE sent: " + status_code);
    response.writeHead(status_code, headers);
    response.write(content)
    response.end();
