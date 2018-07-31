@@ -4,6 +4,7 @@
 import requests
 import time
 import sys, getopt
+from memory_profiler import profile
 
 def wrongExtension(url, repeats):
     r = requests.get(url)
@@ -12,7 +13,7 @@ def wrongExtension(url, repeats):
 
 def get(url, repeats):
     # sendGetRequest(url, 3000, "file1")
-    sendGetRequest(url, repeats, "file1000", "file90000", "file100000", "file500000")
+    sendGetRequest(url, repeats, "file1000", "file6000", "file90000", "file100000")
     #~ sendGetRequest(url, 3000, "file100")
     #~ sendGetRequest(url, 3000, "file300")
     #~ sendGetRequest(url, 3000, "file700")
@@ -38,6 +39,7 @@ def putpost(url, repeats):
     #~ sendPutPostRequest(url, 300, "txt500000")
     #~ sendPutPostRequest(url, 150, "txt1000000")
 
+@profile
 def sendGetRequest(url, repeats, *file_extensions):
     t_start = time.time()
     for j in range(repeats):
@@ -58,7 +60,7 @@ def sendGetRequest(url, repeats, *file_extensions):
         #~ print data
         #~ print r.status_code
     t_end = time.time()
-    printDuration(t_end-t_start)
+    # printDuration(t_end-t_start)
 
 def sendPutPostRequest(url, repeats, filename):
     postfile = open("./" + filename + ".txt",'rb')

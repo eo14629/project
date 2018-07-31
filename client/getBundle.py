@@ -4,6 +4,7 @@
 import requests
 import time
 import sys, getopt
+# from memory_profiler import profile
 
 URL = "http://192.168.0.34:"
 
@@ -13,12 +14,13 @@ def printDuration(time):
 			print time, 's'
 		print("...")
 
+@profile
 def sendGetRequest(url, repeats):
 	t_start = time.time()
 	for j in range(repeats):
 		response = requests.get(url)
 		data = response.text
-		print data
+		# print data
 		print response.status_code
 	t_end = time.time()
 	#~ printDuration(t_end-t_start)
@@ -27,19 +29,19 @@ def sendGetRequest(url, repeats):
 # by using the correct parsing
 def createURL(paths, total_paths):
 	url = URL
-	
+
 	if total_paths == 1:
 		url += "8081/"
 	else:
 		url += "8082/"
-		
+
 	for p in range(total_paths):
 		extension = paths[p]
 		extension += "&"
 		url += extension
-	
+
 	url = url[:-1]
-	
+
 	return url
 
 # Converting the arguments to strings to be used for the URL and the
