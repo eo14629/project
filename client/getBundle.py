@@ -7,7 +7,7 @@ import sys, getopt
 import json
 from memory_profiler import profile
 
-URL = "http://172.20.10.2:"
+URL = "http://192.168.0.35:"
 
 def printDuration(time):
     for i in range(40):
@@ -20,16 +20,16 @@ def printLengths(decoded):
         value = decoded[key]
         print key, "length : ", len(value)
 
-@profile
+# @profile
 def sendGetRequest(url, repeats):
     t_start = time.time()
     for j in range(repeats):
         response = requests.get(url)
         data = response.text
         # print data
-        print response.status_code
+        # print response.status_code
     t_end = time.time()
-    #~ printDuration(t_end-t_start)
+    printDuration(t_end-t_start)
 
     try:
         decoded = json.loads(data)
