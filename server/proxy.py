@@ -15,10 +15,10 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
         s.send_header("Content-type", "text/html")
         s.end_headers()
         # s.wfile.write("path accessed: %s\n" % s.path)
-
         # split the path into different sections
         extension = s.path.split('/')
-        paths = extension[1].split('&')
+        print "extension ", extension
+        paths = extension[1].split('*')
         print paths
         if len(paths) > 1:
             response = bundle(paths)
@@ -30,7 +30,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
             s.wfile.write(response)
 
 # a bundling method to send and receive multiple requests
-# to the main server and then package them up as a JSON response.
+# to the main server and then package them up as a JSON response to the Client.
 def bundle(paths):
     response = {}
     for path in paths:
@@ -45,7 +45,7 @@ def getRequest(path):
     server_response = requests.get(url)
     print path, " status_code: ", server_response.status_code
     return server_response.text
-    
+
 # set up the proxy server
 def run():
     server_class = BaseHTTPServer.HTTPServer

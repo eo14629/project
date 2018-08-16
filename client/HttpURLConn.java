@@ -9,7 +9,7 @@ import java.net.*;
 import java.net.HttpURLConnection;
 
 class HttpURLConn {
-  private String urlName = "http://192.168.0.34:8082/";
+  private String urlName = "http://172.20.10.2:8081/";
   private DataOutputStream out;
   private BufferedReader in, stdIn;
 

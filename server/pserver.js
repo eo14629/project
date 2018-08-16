@@ -22,6 +22,7 @@ function handle(request, response) {
 
 function printRequest(request) {
   let body = [];
+  console.log("Version:", request.httpVersion);
   console.log("Method:", request.method);
   console.log("URL:", request.url);
   console.log("Headers:", request.headers);

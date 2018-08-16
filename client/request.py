@@ -13,7 +13,7 @@ def wrongExtension(url, repeats):
 
 def get(url, repeats):
     # sendGetRequest(url, 3000, "file1")
-    sendGetRequest(url, repeats, "file1000", "file6000", "file90000", "file100000")
+    sendGetRequest(url, repeats, "file1000", "file90000", "file200000", "file700000")
     #~ sendGetRequest(url, 3000, "file100")
     #~ sendGetRequest(url, 3000, "file300")
     #~ sendGetRequest(url, 3000, "file700")
@@ -44,23 +44,24 @@ def sendGetRequest(url, repeats, *file_extensions):
     t_start = time.time()
     for j in range(repeats):
         r = requests.get(url + file_extensions[0])
-        data = r.text
+        data1 = r.text
         #~ print data
         #~ print r.status_code
         r = requests.get(url + file_extensions[1])
-        data = r.text
+        data2 = r.text
         #~ print data
         #~ print r.status_code
         r = requests.get(url + file_extensions[2])
-        data = r.text
+        data3 = r.text
         #~ print data
         #~ print r.status_code
         r = requests.get(url + file_extensions[3])
-        data = r.text
+        data4 = r.text
         #~ print data
         #~ print r.status_code
-    t_end = time.time()
     # printDuration(t_end-t_start)
+    t_end = time.time()
+    print "data1: ", len(data1), "\ndata2: ", len(data2), "\ndata3: ", len(data3), "\ndata4: ", len(data4),"\n\n"
 
 def sendPutPostRequest(url, repeats, filename):
     postfile = open("./" + filename + ".txt",'rb')
