@@ -1,3 +1,6 @@
+// C HTTP request client for sending simple GET requests
+// adapted from https://stackoverflow.com/questions/22077802/simple-c-example-of-doing-an-http-post-and-consuming-the-response
+
 #include <stdio.h> /* printf, sprintf */
 #include <stdlib.h> /* exit */
 #include <stdbool.h>
@@ -15,8 +18,8 @@ int main(int argc,char *argv[])
 {
     /* first what are we going to send and where are we going to send it? */
     int portno =        8081;
-    char *host =        "192.168.0.34";
-    char *message_fmt = "%s /%s HTTP/1.0\r\n\r\n";
+    char *host =        "172.20.10.2";
+    char *message_fmt = "%s /%s HTTP/1.1\r\n\r\n";
 
     struct hostent *server;
     struct sockaddr_in serv_addr;
@@ -27,12 +30,12 @@ int main(int argc,char *argv[])
 
     /* fill in the parameters */
     sprintf(message,message_fmt,argv[1],argv[2]);
-    if (sscanf(argv[3], "%i", &repeat) != 1) { 
-		fprintf(stderr, "error - repeat val (third arg) is not an integer"); 
+    if (sscanf(argv[3], "%i", &repeat) != 1) {
+		fprintf(stderr, "error - repeat val (third arg) is not an integer");
 	}
  	printf("repeat : %d\n",repeat);
 	printf("Request:\n%s\n",message);
-	
+
     /* lookup the ip address */
     server = gethostbyname(host);
     if (server == NULL) error("ERROR, no such host");
@@ -84,14 +87,14 @@ int main(int argc,char *argv[])
             error("ERROR storing complete response from socket");
 
         /* process response */
-        // printf("Response:\n%s\n",response);
+        printf("Response:\n%s\n",response);
 
         /* close the socket */
         close(sockfd);
     }
     time(&after);
-    
-	printDuration((int)(after-before));
+
+	printf("Execution time: %d",(int)(after-before));
 
     return 0;
 }
@@ -99,13 +102,4 @@ int main(int argc,char *argv[])
 void error(const char *msg) {
     printf("%s\n", msg);
     exit(0);
-}
-
-void printDuration(int duration) {
-	for (int j=0; j<100; j++) {  
-		for (int k=0; k<j; k++) {  
-			printf("%ds", duration);
-		}
-	printf("...\n");
-	}
 }

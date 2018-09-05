@@ -1,4 +1,4 @@
-// Using the HttpURLConn Java class to produce HTTP Gets and Posts
+// Using the HttpURLConn Java class to produce HTTP GETS and POSTS
 
 import java.io.*;
 import java.nio.file.*;
@@ -15,41 +15,62 @@ class HttpURLConn {
 
   public static void main(String[] args) {
     HttpURLConn program = new HttpURLConn();
-    program.appendURL();
+    if (program.checkArgs(args)) {
+        program.direct(args);
+    } else {
+        System.err.println("Usage: java HttpURLConn -request(e.g get-file1000) num_repeats");
+    }
   }
 
-  // waiting function - gets URL from user.
-  private void appendURL() {
-    stdIn = new BufferedReader(new InputStreamReader(System.in));
-    String userInput;
-    try {
-      while ((userInput = stdIn.readLine()) != null) {
-        if (userInput.startsWith("get-")) {
-          Instant t1, t2;
-          t1 = Instant.now();
-          // loop round this line:
-          for (int i=0; i<1; i++) {
-            get(userInput);
-          }
-          t2 = Instant.now();
-          // printDuration(Duration.between(t1, t2).toMillis());
-        } else if (userInput.startsWith("post-")){
-          Path file = FileSystems.getDefault().getPath("./txt300.txt");
+  // make sure the arguments are of the correct format
+  private boolean checkArgs(String[] args) {
+      boolean ret_val = false;
+      if  (args.length==2 &&
+          (args[0].startsWith("get-") || args[0].startsWith("post-"))) {
+          try {
+              int repeats = Integer.parseInt(args[1]);
+              if (args[0].startsWith("post-")) {
+                  try {
+                      int extension = Integer.parseInt(args[0].split("post-file")[1]);
+                      ret_val = true;
+                  } catch(Exception d) {}
+              } else {
+                  ret_val = true;
+              }
+          } catch(Exception e) {}
+      }
+      return ret_val;
+  }
+
+  // directs program to carry out a POST or GET request.
+  private void direct(String[] args) {
+    String request = args[0];
+    int repeats = Integer.parseInt(args[1]);
+    if (request.startsWith("get-")) {
+      Instant t1, t2;
+      t1 = Instant.now();
+      // loop round this line:
+      for (int i=0; i<repeats; i++) {
+        get(request);
+      }
+      t2 = Instant.now();
+      // printDuration(Duration.between(t1, t2).toMillis());
+    } else {
+      int extension = Integer.parseInt(args[0].split("post-file")[1]);
+      Path file = FileSystems.getDefault().getPath("./txt" + extension + ".txt");
+      try {
           byte[] fileArray = Files.readAllBytes(file);
           Instant t1, t2;
           t1 = Instant.now();
           // loop round this line:
-          for (int i=0; i<10000; i++) {
-            post(userInput, fileArray);
+          for (int i=0; i<repeats; i++) {
+            post(request, fileArray);
           }
           t2 = Instant.now();
           printDuration(Duration.between(t1, t2).toMillis());
-        } else {
-          System.err.println("Incorrect url format: must start with 'get-' or 'post-'");
-        }
+      } catch(IOException e) {
+          System.err.println(e.getMessage());
       }
-    } catch(IOException d) {
-      System.err.println("d: " + d.getMessage());
     }
   }
 
@@ -83,6 +104,7 @@ class HttpURLConn {
     }
   }
 
+  // same as get() but for posts.
   private void post(String userInput, byte[] file) {
 	String response;
     try {
@@ -109,12 +131,12 @@ class HttpURLConn {
   private void printRequest(HttpURLConnection conn) {
     System.out.println("HTTP REQUEST:");
     System.out.println(conn.getRequestMethod());
-    // for (int i=0; i<conn.getHeaderFields().size(); i++) {
-    //   System.out.println("Header Name - " + conn.getHeaderFieldKey(i) + ", Value - " + conn.getHeaderField(i));
-    // }
-    // // System.out.println("Property size: " + conn.getRequestProperties().size());
-    // for (String propertyKey : conn.getRequestProperties().keySet()) {
-    //   System.out.println("Property name - " + conn.getRequestProperty(propertyKey));
-    // }
+    for (int i=0; i<conn.getHeaderFields().size(); i++) {
+      System.out.println("Header Name - " + conn.getHeaderFieldKey(i) + ", Value - " + conn.getHeaderField(i));
+    }
+    // System.out.println("Property size: " + conn.getRequestProperties().size());
+    for (String propertyKey : conn.getRequestProperties().keySet()) {
+      System.out.println("Property name - " + conn.getRequestProperty(propertyKey));
+    }
   }
 }

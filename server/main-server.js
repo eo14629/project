@@ -9,7 +9,7 @@ start(8081);
 function start(port) {
    var service = HTTP.createServer(handle);
    service.listen(port,'0.0.0.0');
-   console.log("URL:" + ip.address() + "\nPort:" + port);
+   console.log("Main Server Starts\nURL: " + ip.address() + "\nPort: " + port);
 }
 
 // Deal with a request.
@@ -17,7 +17,7 @@ function handle(request, response) {
    printRequest(request);
    var url = request.url.toLowerCase();
    if (checkURL(url)) return fail(response, 500, "ERROR: INVALID URL");
-   direct(url, request, response);
+   direct(url, request, response);/* This function DOES NOT need to be passed the request parameter */
 }
 
 function printRequest(request) {
@@ -30,11 +30,11 @@ function printRequest(request) {
     body.push(chunk);
   }).on('end', () => {
     body = Buffer.concat(body).toString();
-    // console.log("Body:", body);
+    console.log("Body:", body);
   });
 }
 
-// make sure that the URL is not suspect
+// make sure that the URL is ok
 function checkURL(url) {
    if(url.includes("./") ||
    url.includes("//") ||
@@ -67,11 +67,10 @@ function get(extension, request, response) {
     reply(200, response, 'text/html' , "good");
   } else if (extension.startsWith("file")) {
     var file = "./txt" + extension.split("file")[1] + ".txt"
-    fs.readFile(file, ready);
-    function ready(err, content) {
+    fs.readFile(file, (err, content) => {
       if (err) {reply(400, response, 'text/plain' , "400 - File '"+ file + "' does not exist in server library")}
       else {reply(200, response, 'application/octet-stream' , content);}
-    }
+    });
   } else if (extension == "") {
     reply(200, response, 'text/plain' , "OK");
   } else {
@@ -80,19 +79,16 @@ function get(extension, request, response) {
 }
 
 // function to deal with HTTP POST Requests
+// nothing needs to be done
 function post(extension, request, response) {
   console.log("extension = " + extension);
-  if (extension == "") {
-    reply(200, response, 'text/plain' , "post OK");
-  } else {
-    reply(404, response, 'text/plain' , "404 - Page not found");
-  }
+  reply(200, response, 'text/plain' , "post OK");
 }
 
 // Send a reply of any type and status
 function reply(status_code, response, type, content) {
    var headers = { 'content-type': type };
-   // console.log("Response: " + content);
+   console.log("Response: " + content);
    console.log("STATUS CODE sent: " + status_code);
    response.writeHead(status_code, headers);
    response.write(content)
